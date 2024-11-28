@@ -1,10 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TestDataService } from '../../services/test-data.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-day-1',
   standalone: true,
-  imports: [],
+  imports: [ToggleButtonModule, FormsModule],
   templateUrl: './day-1.component.html',
   styleUrl: './day-1.component.scss',
 })
@@ -23,21 +25,10 @@ export class Day1Component implements OnInit {
   };
 
   public valueTotal = 0;
-  public part1 = false;
+  public part1 = true;
 
   async ngOnInit() {
-    let digitArray: number[] = [];
-    const apiDataArray = await this.testDataService.fetchTestData('2023', '1');
-
-    apiDataArray.forEach((calibrationValue: string) => {
-      digitArray.push(
-        this.part1
-          ? this.extractDigitsPartOne(calibrationValue)
-          : this.extractDigitsPartTwo(calibrationValue)
-      );
-    });
-
-    this.sumOfAllDigits(digitArray);
+    this.init();
   }
 
   extractDigitsPartOne(calibrationValue: string): number {
@@ -95,5 +86,25 @@ export class Day1Component implements OnInit {
     this.valueTotal = calibratedList.reduce((previousValue, currentValue) => {
       return previousValue + currentValue;
     });
+  }
+
+  async init() {
+    let digitArray: number[] = [];
+    const apiDataArray = await this.testDataService.fetchTestData('2023', '1');
+
+    apiDataArray.forEach((calibrationValue: string) => {
+      digitArray.push(
+        this.part1
+          ? this.extractDigitsPartOne(calibrationValue)
+          : this.extractDigitsPartTwo(calibrationValue)
+      );
+    });
+
+    this.sumOfAllDigits(digitArray);
+  }
+
+  changePart() {
+    this.part1 = !this.part1;
+    this.init();
   }
 }
