@@ -7,11 +7,11 @@ import { Injectable } from '@angular/core';
 export class TestDataService {
     constructor(private http: HttpClient) { }
 
-    public async fetchTestData(year: string, day: string): Promise<string[]> {
+    public async fetchTestData(year: string, day: string): Promise<string> {
         // Get the test data from local storage if it exists.
         const result = localStorage.getItem(`${year} - ${day}`);
         if (result) {
-            return JSON.parse(result);
+            return result;
         }
 
         // Get the test data from web site.
@@ -23,11 +23,11 @@ export class TestDataService {
         // Covert text to array and save it to local storage.
 
         if (response) {
-            const dataArray = response.split('\n');
-            localStorage.setItem(`${year} - ${day}`, JSON.stringify(dataArray));
-            return dataArray;
+            localStorage.setItem(`${year} - ${day}`, response);
+            return response;
         }
 
-        return [];
+        return '';
     }
 }
+

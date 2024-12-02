@@ -1,18 +1,1 @@
-<div class="card flex justify-content-center">
-    <p-calendar class="max-w-full" [(ngModel)]="selectedDate" [inline]="true" [showWeek]="true" />
-</div>
-
-@switch (selectedDate.getDate()) {
-@case (1) {
-<app-day-1></app-day-1>
-}
-@case (2) {
-<app-day-2></app-day-2>
-}
-@default {
-Default case.
-}
-}
-
-
-<iframe [src]="getUrl()" width="100%" height="600px"></iframe>
+<app-day-1></app-day-1> 
